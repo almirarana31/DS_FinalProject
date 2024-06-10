@@ -113,26 +113,27 @@ public class SudokuGUI_Array {
     }
 
     private static void startTimer() {
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 long elapsedTime = getElapsedTime();
-                timerLabel.setText("Elapsed time: " + elapsedTime + " milliseconds");
+                timerLabel.setText("Elapsed time: " + elapsedTime + " nanoseconds");
             }
         });
         timer.start();
     }
 
     private static void stopTimer() {
-        if (timer != null) {
+        if (timer!= null) {
             timer.stop();
             long elapsedTime = getElapsedTime();
-            timerLabel.setText("Elapsed time: " + elapsedTime + " milliseconds");
+            timerLabel.setText("Elapsed time: " + elapsedTime + " nanoseconds");
         }
     }
+
     private static long getElapsedTime() {
-        return (System.currentTimeMillis() - startTime);
+        return (System.nanoTime() - startTime);
     }
     // Parse the input from the text fields and store it in the board array
     private static void parseInput() {
