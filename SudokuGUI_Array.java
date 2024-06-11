@@ -47,7 +47,7 @@ public class SudokuGUI_Array {
         board = new int[SIZE][SIZE]; // Initialize the 2D array of the board
 
         // Create a JFrame for the GUI
-        JFrame frame = new JFrame("Sudoku Solver");
+        JFrame frame = new JFrame("Sudoku Solver Array");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setLayout(new BorderLayout());

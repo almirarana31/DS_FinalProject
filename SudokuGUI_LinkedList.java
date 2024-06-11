@@ -48,7 +48,7 @@ public class SudokuGUI_LinkedList {
             board.add(0);
         }
 
-        JFrame frame = new JFrame("Sudoku Solver");
+        JFrame frame = new JFrame("Sudoku Solver LinkedList");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setLayout(new BorderLayout());
@@ -63,7 +63,7 @@ public class SudokuGUI_LinkedList {
             panel.add(cell);
         }
 
-        //Timer label
+        // Timer label
         timerLabel = new JLabel("Elapsed time: 0 seconds");
         frame.add(timerLabel, BorderLayout.NORTH);
 
@@ -78,7 +78,7 @@ public class SudokuGUI_LinkedList {
                     JOptionPane.showMessageDialog(null, "The board has duplicates in rows, columns, or subgrids and cannot be solved.");
                 } else {
                     startTimer();
-                    if (solve(0, board)) {
+                    if (solve(0)) {
                         updateBoard();
                         stopTimer();
                         JOptionPane.showMessageDialog(frame, "Solution found!\nOperations performed: " + operationCount +
@@ -108,12 +108,12 @@ public class SudokuGUI_LinkedList {
     }
 
     private static void startTimer() {
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 long elapsedTime = getElapsedTime();
-                timerLabel.setText("Elapsed time: " + elapsedTime + " milliseconds");
+                timerLabel.setText("Elapsed time: " + elapsedTime / 1_000_000_000 + " seconds");
             }
         });
         timer.start();
@@ -123,14 +123,15 @@ public class SudokuGUI_LinkedList {
         if (timer != null) {
             timer.stop();
             long elapsedTime = getElapsedTime();
-            timerLabel.setText("Elapsed time: " + elapsedTime + " milliseconds");
+            timerLabel.setText("Elapsed time: " + elapsedTime / 1_000_000_000 + " seconds");
         }
     }
-    private static long getElapsedTime() {
-        return (System.currentTimeMillis() - startTime);
-    }
-    // Parse the input from the text fields and store it in the board array
 
+    private static long getElapsedTime() {
+        return (System.nanoTime() - startTime);
+    }
+
+    // Parse the input from the text fields and store it in the board array
     private static void parseInput() {
         for (int i = 0; i < SIZE * SIZE; i++) {
             String text = cells.get(i).getText();
@@ -142,11 +143,11 @@ public class SudokuGUI_LinkedList {
                     if (value < 1 || value > SIZE) {
                         throw new NumberFormatException();
                     }
-                    board.add(i, value);
+                    board.set(i, value);
                     filledCellsCount++;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Please enter numbers between 1 and " + SIZE + " only.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                    board.add(i, 0);
+                    board.set(i, 0);
                 }
             }
         }
@@ -164,14 +165,14 @@ public class SudokuGUI_LinkedList {
     }
 
     private static void clearBoard() {
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE * SIZE; i++) {
             cells.get(i).setText("");
             board.set(i, 0);
         }
     }
 
-    //recursive function to solve the puzzle (LinkedList)
-    private static boolean solve(int i, LinkedList<Integer> board) {
+    // Recursive function to solve the puzzle (LinkedList)
+    private static boolean solve(int i) {
         if (filledCellsCount < min_clues) { // check if enough clues within board
             JOptionPane.showMessageDialog(null, "Not enough clues to solve the puzzle.");
             return false;
@@ -180,14 +181,14 @@ public class SudokuGUI_LinkedList {
             return true;
         }
         if (board.get(i) != 0) {
-            return solve(i + 1, board); // if end of board reached, stop
+            return solve(i + 1); // move to the next cell
         }
 
         for (int val = 1; val <= SIZE; ++val) { // O(n)
-            if (legal(i, val, board)) { // O(n^2)
+            if (legal(i, val)) { // O(n^2)
                 board.set(i, val); // O(1)
                 operationCount++; // O(1)
-                if (solve(i + 1, board)) { // O(n^2)
+                if (solve(i + 1)) { // O(n^2)
                     return true; // O(1)
                 }
             }
@@ -197,7 +198,7 @@ public class SudokuGUI_LinkedList {
         return false; // return false if no value can be placed in the current cell
     }
 
-    private static boolean legal(int i, int val, LinkedList<Integer> board) {
+    private static boolean legal(int i, int val) {
         int row = i / SIZE;
         int col = i % SIZE;
 
@@ -218,7 +219,7 @@ public class SudokuGUI_LinkedList {
         int boxColOffset = (col / boxSize) * boxSize;
         for (int k = 0; k < boxSize; ++k) {
             for (int m = 0; m < boxSize; ++m) {
-                if (val == board.get(boxRowOffset + k) * SIZE + (boxColOffset + m)) {
+                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
                     return false;
                 }
             }
@@ -259,15 +260,15 @@ public class SudokuGUI_LinkedList {
         int boxSize = (int) Math.sqrt(SIZE);
         for (int startRow = 0; startRow < SIZE; startRow += boxSize) {
             for (int startCol = 0; startCol < SIZE; startCol += boxSize) {
-                boolean[] seen = new boolean[SIZE + 1];
-                for (int i = startRow; i < startRow + boxSize; i++) {
-                    for (int j = startCol; j < startCol + boxSize; j++) {
-                        int value = board.get(i * SIZE + j);
+                LinkedList<Integer> seen = new LinkedList<>();
+                for (int i = 0; i < boxSize; i++) {
+                    for (int j = 0; j < boxSize; j++) {
+                        int value = board.get((startRow + i) * SIZE + (startCol + j));
                         if (value != 0) {
-                            if (seen[value]) {
+                            if (seen.contains(value)) {
                                 return true;
                             }
-                            seen[value] = true;
+                            seen.add(value);
                         }
                     }
                 }
