@@ -216,35 +216,35 @@ public class SudokuGUI_Array {
     // Check if a value can be placed in a cell
     private static boolean legal(int i, int j, int val, int[][] cells) {
         // Check the row
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == cells[k][j]) {
-                return false; // If the value is already in the row, return false
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == cells[k][j]) { // O(n)
+                return false; // If the value is already in the row, return false, O(1)
             }
         }
 
         // Check the column
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == cells[i][k]) {
-                return false; // If the value is already in the column, return false
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == cells[i][k]) { // O(n)
+                return false; // If the value is already in the column, return false, O(1)
             }
         }
 
         // Check the box
-        int boxSize = (int) Math.sqrt(SIZE);
-        int boxRowOffset = (i / boxSize) * boxSize;
-        int boxColOffset = (j / boxSize) * boxSize;
-        for (int k = 0; k < boxSize; ++k) {
-            for (int m = 0; m < boxSize; ++m) {
-                operationCount++;
-                if (val == cells[boxRowOffset + k][boxColOffset + m]) {
-                    return false; // If the value is already in the box, return false
+        int boxSize = (int) Math.sqrt(SIZE); // O(1)
+        int boxRowOffset = (i / boxSize) * boxSize; // O(1)
+        int boxColOffset = (j / boxSize) * boxSize; // O(1)
+        for (int k = 0; k < boxSize; ++k) { // O(sqrt(n))
+            for (int m = 0; m < boxSize; ++m) { // O(sqrt(n))
+                operationCount++; // O(1)
+                if (val == cells[boxRowOffset + k][boxColOffset + m]) { // O(n)
+                    return false; // If the value is already in the box, return false, O(1)
                 }
             }
         }
 
-        return true; // If the value is not in the row, column, or box, return true
+        return true; // If the value is not in the row, column, or box, return true, O(1)
     }
 
     private static boolean hasDuplicates() {

@@ -189,7 +189,7 @@ public class SudokuGUI_LinkedList {
                 board.set(i, val); // O(1)
                 operationCount++; // O(1)
                 if (solve(i + 1)) { // O(n^2)
-                    return true; // O(1)
+                    return true; // If the puzzle is solvable with the current value, return true T(n-1) -- recursive
                 }
             }
         }
@@ -200,38 +200,38 @@ public class SudokuGUI_LinkedList {
 
 
     private static boolean legal(int i, int val) {
-        int row = i / SIZE;
-        int col = i % SIZE;
+        int row = i / SIZE; // O(1)
+        int col = i % SIZE; // O(1)
 
         // Check row
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == board.get(row * SIZE + k)) {
-                return false;
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == board.get(row * SIZE + k)) { // O(1)
+                return false; // O(1)
             }
         }
 
         // Check column
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == board.get(k * SIZE + col)) {
-                return false;
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == board.get(k * SIZE + col)) { // O(1)
+                return false; // O(1)
             }
         }
 
         // Check subgrid
-        int boxSize = (int) Math.sqrt(SIZE);
-        int boxRowOffset = (row / boxSize) * boxSize;
-        int boxColOffset = (col / boxSize) * boxSize;
-        for (int k = 0; k < boxSize; ++k) {
-            for (int m = 0; m < boxSize; ++m) {
-                operationCount++;
-                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
-                    return false;
+        int boxSize = (int) Math.sqrt(SIZE); // O(1)
+        int boxRowOffset = (row / boxSize) * boxSize; // O(1)
+        int boxColOffset = (col / boxSize) * boxSize; // O(1)
+        for (int k = 0; k < boxSize; ++k) { // O(sqrt(n))
+            for (int m = 0; m < boxSize; ++m) { // O(sqrt(n))
+                operationCount++; // O(1)
+                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) { // O(n)
+                    return false; // O(1)
                 }
             }
         }
-        return true;
+        return true; // O(1)
     }
 
 

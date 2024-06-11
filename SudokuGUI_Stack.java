@@ -192,7 +192,7 @@ public class SudokuGUI_Stack {
                 board.set(index, val); // O(1)
                 operationCount++; // O(1)
                 if (solve(index + 1, board)) { // O(n^2)
-                    return true; // O(1)
+                    return true; // If the puzzle is solvable with the current value, return true T(n-1) -- recursive
                 }
             }
         }
@@ -202,36 +202,36 @@ public class SudokuGUI_Stack {
     }
 
     private static boolean legal(int index, int val, Stack<Integer> board) {
-        int row = index / SIZE;
-        int col = index % SIZE;
+        int row = index / SIZE; // O(1)
+        int col = index % SIZE; // O(1)
 
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == board.get(row * SIZE + k)) {
-                return false;
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == board.get(row * SIZE + k)) { // O(1)
+                return false; // O(1)
             }
         }
 
-        for (int k = 0; k < SIZE; ++k) {
-            operationCount++;
-            if (val == board.get(k * SIZE + col)) {
-                return false;
+        for (int k = 0; k < SIZE; ++k) { // O(n)
+            operationCount++; // O(1)
+            if (val == board.get(k * SIZE + col)) { // O(1)
+                return false; // O(1)
             }
         }
 
-        int boxSize = (int) Math.sqrt(SIZE);
-        int boxRowOffset = (row / boxSize) * boxSize;
-        int boxColOffset = (col / boxSize) * boxSize;
-        for (int k = 0; k < boxSize; ++k) {
-            for (int m = 0; m < boxSize; ++m) {
-                operationCount++;
-                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
-                    return false;
+        int boxSize = (int) Math.sqrt(SIZE); // O(1)
+        int boxRowOffset = (row / boxSize) * boxSize; // O(1)
+        int boxColOffset = (col / boxSize) * boxSize; // O(1)
+        for (int k = 0; k < boxSize; ++k) { // O(sqrt(n))
+            for (int m = 0; m < boxSize; ++m) { // O(sqrt(n))
+                operationCount++; // O(1)
+                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) { // O(n)
+                    return false; // O(1)
                 }
             }
         }
 
-        return true;
+        return true; // O(1)
     }
 
     private static boolean hasDuplicates() {
