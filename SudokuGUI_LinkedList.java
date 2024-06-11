@@ -123,7 +123,7 @@ public class SudokuGUI_LinkedList {
         if (timer != null) {
             timer.stop();
             long elapsedTime = getElapsedTime();
-            timerLabel.setText("Elapsed time: " + elapsedTime / 1_000_000_000 + " seconds");
+            timerLabel.setText("Elapsed time: " + elapsedTime + " nanoseconds");
         }
     }
 
