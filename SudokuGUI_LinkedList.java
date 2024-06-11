@@ -198,27 +198,34 @@ public class SudokuGUI_LinkedList {
         return false; // return false if no value can be placed in the current cell
     }
 
+
     private static boolean legal(int i, int val) {
         int row = i / SIZE;
         int col = i % SIZE;
 
+        // Check row
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(row * SIZE + k)) {
                 return false;
             }
         }
 
+        // Check column
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(k * SIZE + col)) {
                 return false;
             }
         }
 
+        // Check subgrid
         int boxSize = (int) Math.sqrt(SIZE);
         int boxRowOffset = (row / boxSize) * boxSize;
         int boxColOffset = (col / boxSize) * boxSize;
         for (int k = 0; k < boxSize; ++k) {
             for (int m = 0; m < boxSize; ++m) {
+                operationCount++;
                 if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
                     return false;
                 }
@@ -226,6 +233,7 @@ public class SudokuGUI_LinkedList {
         }
         return true;
     }
+
 
     private static boolean hasDuplicates() {
         // Check rows for duplicates

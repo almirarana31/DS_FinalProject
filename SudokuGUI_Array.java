@@ -217,6 +217,7 @@ public class SudokuGUI_Array {
     private static boolean legal(int i, int j, int val, int[][] cells) {
         // Check the row
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == cells[k][j]) {
                 return false; // If the value is already in the row, return false
             }
@@ -224,6 +225,7 @@ public class SudokuGUI_Array {
 
         // Check the column
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == cells[i][k]) {
                 return false; // If the value is already in the column, return false
             }
@@ -235,6 +237,7 @@ public class SudokuGUI_Array {
         int boxColOffset = (j / boxSize) * boxSize;
         for (int k = 0; k < boxSize; ++k) {
             for (int m = 0; m < boxSize; ++m) {
+                operationCount++;
                 if (val == cells[boxRowOffset + k][boxColOffset + m]) {
                     return false; // If the value is already in the box, return false
                 }

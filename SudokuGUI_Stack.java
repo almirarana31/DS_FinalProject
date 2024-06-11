@@ -206,12 +206,14 @@ public class SudokuGUI_Stack {
         int col = index % SIZE;
 
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(row * SIZE + k)) {
                 return false;
             }
         }
 
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(k * SIZE + col)) {
                 return false;
             }
@@ -222,6 +224,7 @@ public class SudokuGUI_Stack {
         int boxColOffset = (col / boxSize) * boxSize;
         for (int k = 0; k < boxSize; ++k) {
             for (int m = 0; m < boxSize; ++m) {
+                operationCount++;
                 if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
                     return false;
                 }

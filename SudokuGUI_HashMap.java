@@ -222,12 +222,14 @@ public class SudokuGUI_HashMap {
 
     private static boolean legal(int row, int col, int val) {
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(row + "," + k)) {
                 return false;
             }
         }
 
         for (int k = 0; k < SIZE; ++k) {
+            operationCount++;
             if (val == board.get(k + "," + col)) {
                 return false;
             }
@@ -238,6 +240,7 @@ public class SudokuGUI_HashMap {
         int boxColOffset = (col / boxSize) * boxSize;
         for (int k = 0; k < boxSize; ++k) {
             for (int m = 0; m < boxSize; ++m) {
+                operationCount++;
                 if (val == board.get((boxRowOffset + k) + "," + (boxColOffset + m))) {
                     return false;
                 }
