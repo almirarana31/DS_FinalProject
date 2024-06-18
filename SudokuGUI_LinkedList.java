@@ -200,39 +200,44 @@ public class SudokuGUI_LinkedList {
 
 
     private static boolean legal(int i, int val) {
-        int row = i / SIZE; // O(1)
-        int col = i % SIZE; // O(1)
+        int row = i / SIZE; // Calculate the row index of the cell
+        int col = i % SIZE; // Calculate the column index of the cell
 
-        // Check row
-        for (int k = 0; k < SIZE; ++k) { // O(n)
-            operationCount++; // O(1)
-            if (val == board.get(row * SIZE + k)) { // O(1)
-                return false; // O(1)
+        // Check if 'val' already exists in the current row
+        for (int k = 0; k < SIZE; ++k) {
+            operationCount++; // Increment operation count
+            if (val == board.get(row * SIZE + k)) {
+                return false; // 'val' is already in the row
             }
         }
 
-        // Check column
-        for (int k = 0; k < SIZE; ++k) { // O(n)
-            operationCount++; // O(1)
-            if (val == board.get(k * SIZE + col)) { // O(1)
-                return false; // O(1)
+        // Check if 'val' already exists in the current column
+        for (int k = 0; k < SIZE; ++k) {
+            operationCount++; // Increment operation count
+            if (val == board.get(k * SIZE + col)) {
+                return false; // 'val' is already in the column
             }
         }
 
-        // Check subgrid
-        int boxSize = (int) Math.sqrt(SIZE); // O(1)
-        int boxRowOffset = (row / boxSize) * boxSize; // O(1)
-        int boxColOffset = (col / boxSize) * boxSize; // O(1)
-        for (int k = 0; k < boxSize; ++k) { // O(sqrt(n))
-            for (int m = 0; m < boxSize; ++m) { // O(sqrt(n))
-                operationCount++; // O(1)
-                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) { // O(n)
-                    return false; // O(1)
+        // Calculate the size of the subgrid (for a 9x9 board, it's 3x3)
+        int boxSize = (int) Math.sqrt(SIZE);
+        int boxRowOffset = (row / boxSize) * boxSize; // Calculate the starting row index of the subgrid
+        int boxColOffset = (col / boxSize) * boxSize; // Calculate the starting column index of the subgrid
+
+        // Check if 'val' already exists in the current subgrid
+        for (int k = 0; k < boxSize; ++k) {
+            for (int m = 0; m < boxSize; ++m) {
+                operationCount++; // Increment operation count
+                if (val == board.get((boxRowOffset + k) * SIZE + (boxColOffset + m))) {
+                    return false; // 'val' is already in the subgrid
                 }
             }
         }
-        return true; // O(1)
+
+        // 'val' can be legally placed in the cell
+        return true;
     }
+
 
 
     private static boolean hasDuplicates() {

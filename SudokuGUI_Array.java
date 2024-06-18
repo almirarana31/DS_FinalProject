@@ -28,14 +28,14 @@ public class SudokuGUI_Array {
                 options,
                 options[1]);
 
-        switch (choice) {
+        switch (choice) { // allow user to choose size of board
             case 0:
-                SIZE = 3;
-                min_clues = 4;
+                SIZE = 3; // 3x3 board
+                min_clues = 4; // minimum clues will be set to 4
                 break;
             case 1:
-                SIZE = 9;
-                min_clues = 17;
+                SIZE = 9; // 9x9 board
+                min_clues = 17; // minimum clues will be set to 17
                 break;
             default:
                 return; // Exit if no option is chosen
@@ -66,7 +66,7 @@ public class SudokuGUI_Array {
         }
 
         //Timer label
-        timerLabel = new JLabel("Elapsed time: 0 seconds");
+        timerLabel = new JLabel("Elapsed time: 0 nanoseconds");
         frame.add(timerLabel, BorderLayout.NORTH);
 
         // Create a "Solve" button
@@ -77,16 +77,17 @@ public class SudokuGUI_Array {
                 operationCount = 0; // Reset the operation counter
                 filledCellsCount = 0; // Reset the filled cells counter
                 parseInput(); // Parse the input from the text fields
-                if (hasDuplicates()) {
+                if (hasDuplicates()) { // if board has duplicates, show error message
                     JOptionPane.showMessageDialog(frame, "The board has duplicates in rows, columns, or subgrids and cannot be solved.");
-                } else {
+                } else { // otherwise, start timer and solver
                     startTimer();
                     if (solve(0, 0, board)) { // Solve the Sudoku puzzle
                         updateBoard();
-                        stopTimer();// Update the GUI with the solution
+                        stopTimer();
+                        // Update the GUI with the solution
                         JOptionPane.showMessageDialog(frame, "Solution found!\nOperations performed: " + operationCount +
                                 "\nInput size: " + inputSize + "\nFilled cells: " + filledCellsCount + "\nEmpty cells: " + (inputSize - filledCellsCount));
-                    } else {
+                    } else { // if solver does not find solution
                         stopTimer();
                         JOptionPane.showMessageDialog(frame, "No solution exists!");
                     }
@@ -94,7 +95,7 @@ public class SudokuGUI_Array {
             }
         });
 
-        // Create a "Clear" button
+        //create a clear button to clear board of numbers
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -112,6 +113,7 @@ public class SudokuGUI_Array {
         frame.setVisible(true);
     }
 
+    // timer function to count in nanoseconds
     private static void startTimer() {
         startTime = System.nanoTime();
         timer = new Timer(1000, new ActionListener() {
@@ -124,6 +126,7 @@ public class SudokuGUI_Array {
         timer.start();
     }
 
+    // function to stop timer and return elapsed time in nanoseconds
     private static void stopTimer() {
         if (timer!= null) {
             timer.stop();
@@ -137,22 +140,30 @@ public class SudokuGUI_Array {
     }
     // Parse the input from the text fields and store it in the board array
     private static void parseInput() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                String text = cells[i][j].getText();
+        // loop through each row
+        for (int row = 0; row < SIZE; row++) {
+            // loop through each column
+            for (int col = 0; col < SIZE; col++) {
+                //get text from current cell
+                String text = cells[row][col].getText();
+                // if cell is empty, insert 0
                 if (text.isEmpty()) {
-                    board[i][j] = 0;
+                    board[row][col] = 0;
                 } else {
                     try {
+                        // parse text into integer
                         int value = Integer.parseInt(text);
+                        // check if value is within legal range
                         if (value < 1 || value > SIZE) {
                             throw new NumberFormatException();
                         }
-                        board[i][j] = value;
+                        // if value is legal, store into board
+                        board[row][col] = value;
                         filledCellsCount++; // Increment the filled cells counter
-                    } catch (NumberFormatException e) {
+                    } catch (NumberFormatException e) { // error handling message if input is invalid
                         JOptionPane.showMessageDialog(null, "Please enter numbers between 1 and " + SIZE + " only.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                        board[i][j] = 0;
+                        // if input is invalid, set board value to 0
+                        board[row][col] = 0;
                     }
                 }
             }
