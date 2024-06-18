@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
+// stack implementation
 public class SudokuGUI_Stack {
     // Static variables to store the size of the Sudoku board, the stack of text fields, the stack of the board, and counters for operations and filled cells
     private static int SIZE;

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+// 2D array implementation
 public class SudokuGUI_Array {
     // Static variables to store the size of the Sudoku board, the 2D array of text fields, the 2D array of the board, and counters for operations and filled cells
     private static int SIZE;

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+// linked list implementation
 public class SudokuGUI_LinkedList {
     // Static variables to store the size of the Sudoku board, the linked list of text fields, the linked list of the board, and counters for operations and filled cells
     private static int SIZE;

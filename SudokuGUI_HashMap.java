@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-
+// hash map implementation
 public class SudokuGUI_HashMap {
     private static int SIZE;
     private static HashMap<Integer, JTextField> cells;
