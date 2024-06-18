@@ -216,6 +216,7 @@ public class SudokuGUI_LinkedList {
 
 
     private static boolean legal(int i, int val) {
+        // Check if a value can be placed in a cell
         int row = i / SIZE; // Calculate the row index of the cell
         int col = i % SIZE; // Calculate the column index of the cell
 

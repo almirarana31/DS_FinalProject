@@ -238,6 +238,7 @@ public class SudokuGUI_HashMap {
         return false; // if no value can be placed then return false
     }
 
+    // Check if a value can be placed in a cell
     private static boolean legal(int row, int col, int val) {
         for (int k = 0; k < SIZE; ++k) { // O(n)
             operationCount++; // O(1)

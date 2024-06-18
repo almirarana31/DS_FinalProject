@@ -219,6 +219,7 @@ public class SudokuGUI_Stack {
     }
 
     private static boolean legal(int index, int val, Stack<Integer> board) {
+        // Check if a value can be placed in a cell
         int row = index / SIZE; // O(1)
         int col = index % SIZE; // O(1)
 
